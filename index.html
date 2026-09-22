@@ -2,532 +2,314 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#c9a227">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Tarot Academy — ระบบบทเรียนไพ่ทาโรต์</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>แพลตฟอร์มเรียนไพ่ทาโรต์ 78 ใบ</title>
 <style>
-:root{--bg:#12101c;--panel:#1c1930;--accent:#c9a227;--accent2:#8b7bd8;--txt:#ece9f5;--muted:#9c96b8;--ok:#4caf7d;--bad:#e0605e}
 *{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--txt);font-family:'Sarabun','Segoe UI',sans-serif;line-height:1.7;overscroll-behavior-y:contain}
-button,.opt,.tcard,.slot{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-input,textarea{font-size:16px}
-header{background:linear-gradient(135deg,#241f3d,#12101c);padding:22px 18px;border-bottom:2px solid var(--accent);text-align:center}
-h1{font-size:1.5rem;color:var(--accent);letter-spacing:1px}
-header p{color:var(--muted);font-size:.85rem;margin-top:4px}
-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;background:var(--panel);padding:10px;position:sticky;top:0;z-index:50}
-nav button{background:transparent;border:1px solid #3a3458;color:var(--muted);padding:8px 16px;border-radius:20px;cursor:pointer;font-family:inherit;font-size:.85rem;transition:.2s}
-nav button:hover{border-color:var(--accent2);color:var(--txt)}
-nav button.active{background:var(--accent);color:#12101c;border-color:var(--accent);font-weight:700}
-main{max-width:980px;margin:0 auto;padding:22px 16px 80px}
-section{display:none;animation:fade .3s}
-section.active{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
-h2{color:var(--accent);font-size:1.25rem;margin:18px 0 10px;border-left:4px solid var(--accent);padding-left:10px}
-h3{color:var(--accent2);font-size:1.05rem;margin:14px 0 6px}
-.card-panel{background:var(--panel);border:1px solid #302b4d;border-radius:12px;padding:16px;margin-bottom:14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.tcard{background:#221e3a;border:1px solid #383158;border-radius:10px;padding:12px;cursor:pointer;transition:.2s}
-.tcard:hover{border-color:var(--accent);transform:translateY(-3px)}
-.tcard .nm{font-weight:700;font-size:.9rem;color:var(--accent)}
-.tcard .th{font-size:.8rem;color:var(--muted)}
-.badge{display:inline-block;font-size:.7rem;padding:2px 8px;border-radius:10px;background:#3a3458;color:var(--txt);margin:2px 3px 0 0}
-.btn{background:var(--accent);color:#12101c;border:0;padding:10px 20px;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;margin:4px 4px 4px 0}
-.btn.alt{background:var(--accent2);color:#fff}
-.btn.ghost{background:transparent;border:1px solid var(--accent2);color:var(--accent2)}
-.opt{display:block;width:100%;text-align:left;background:#221e3a;border:1px solid #383158;color:var(--txt);padding:11px;border-radius:8px;margin:6px 0;cursor:pointer;font-family:inherit}
-.opt:hover{border-color:var(--accent2)}
-.opt.correct{background:rgba(76,175,125,.25);border-color:var(--ok)}
-.opt.wrong{background:rgba(224,96,94,.25);border-color:var(--bad)}
-.bar{height:9px;background:#2b2646;border-radius:5px;overflow:hidden;margin:6px 0}
-.bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent))}
-table{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:8px}
-th,td{border:1px solid #332e52;padding:7px;text-align:left;vertical-align:top}
-th{background:#251f42;color:var(--accent)}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;padding:16px;z-index:99}
-.modal.on{display:flex}
-.modal-in{background:var(--panel);border:1px solid var(--accent);border-radius:14px;max-width:560px;width:100%;max-height:85vh;overflow:auto;padding:20px}
-.muted{color:var(--muted);font-size:.85rem}
-.flash{background:#221e3a;border:2px dashed var(--accent2);border-radius:14px;padding:30px 16px;text-align:center;min-height:180px}
-.flash .big{font-size:1.4rem;color:var(--accent);font-weight:700}
-ul{padding-left:20px}li{margin:3px 0}
-.pill{font-size:.72rem;padding:3px 9px;border-radius:12px;background:#2f2a4f;color:var(--accent2);margin-right:5px}
-.spread-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px;margin-top:10px}
-.slot{background:#221e3a;border:1px solid #383158;border-radius:10px;padding:12px;min-height:135px;cursor:pointer;transition:.2s}
-.slot:hover{border-color:var(--accent)}
-.slot.open{border-color:var(--accent2);cursor:default}
-.slot .pos{font-size:.72rem;color:var(--accent2);border-bottom:1px dashed #3a3458;padding-bottom:4px;margin-bottom:6px}
-.slot .back{font-size:2rem;text-align:center;color:#4a4270;margin-top:24px}
-.slot .nm{color:var(--accent);font-weight:700;font-size:.88rem}
-.slot .th{font-size:.76rem;color:var(--muted)}
-.slot p{font-size:.78rem;margin-top:5px}
-.ta{width:100%;min-height:90px;background:#221e3a;color:var(--txt);border:1px solid #383158;border-radius:8px;padding:9px;font-family:inherit;margin-top:8px}
-@media (max-width:640px){
- header{padding:14px 10px}h1{font-size:1.15rem}
- nav{gap:5px;padding:8px;overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;-webkit-overflow-scrolling:touch;scrollbar-width:none}
- nav::-webkit-scrollbar{display:none}
- nav button{flex:0 0 auto;padding:9px 14px;font-size:.8rem}
- main{padding:14px 10px 90px}
- .grid{grid-template-columns:repeat(auto-fill,minmax(46%,1fr));gap:8px}
- .spread-grid{grid-template-columns:1fr}
- .btn{width:100%;padding:13px;margin:5px 0;font-size:.92rem}
- .opt{padding:14px;font-size:.9rem}
- .modal-in{max-height:88vh;padding:16px;border-radius:12px}
- table{font-size:.78rem;display:block;overflow-x:auto}
- .card-panel{padding:13px}
-}
-@media (max-width:380px){.grid{grid-template-columns:1fr}}
-@supports(padding:env(safe-area-inset-bottom)){main{padding-bottom:calc(90px + env(safe-area-inset-bottom))}}
+body{font-family:"Sarabun","Segoe UI",sans-serif;background:#16122b;color:#ece9f7;line-height:1.7}
+.wrap{max-width:900px;margin:0 auto;padding:16px}
+header{text-align:center;padding:18px 0 10px}
+h1{font-size:1.5rem;color:#f5d67a}
+.sub{font-size:.85rem;color:#9d95c4}
+.bar{height:10px;background:#2b2450;border-radius:99px;overflow:hidden;margin:12px 0 4px}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#8a6df0,#f5d67a);width:0;transition:.4s}
+nav{display:flex;gap:6px;margin:14px 0;flex-wrap:wrap}
+nav button{flex:1;min-width:110px;padding:10px;border:1px solid #3a3268;background:#221c42;color:#cfc8ee;border-radius:10px;cursor:pointer;font-family:inherit;font-size:.92rem}
+nav button.on{background:#8a6df0;color:#fff;border-color:#8a6df0;font-weight:700}
+.view{display:none}.view.on{display:block}
+.card{background:linear-gradient(160deg,#241d47,#1b1636);border:1px solid #3d3470;border-radius:18px;padding:22px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.chip{font-size:.75rem;padding:4px 10px;border-radius:99px;background:#332a5f;color:#cbbff5}
+.chip.el{background:#3d3470;color:#f5d67a}
+.cname{font-size:1.6rem;color:#f5d67a;font-weight:700}
+.cth{font-size:1.05rem;color:#bdb3e6;margin-bottom:12px}
+.kw{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.kw span{background:#4a3f86;padding:5px 12px;border-radius:8px;font-size:.85rem}
+.rev{margin-top:14px;display:none}.rev.on{display:block}
+.box{background:#1a1534;border-left:3px solid #8a6df0;padding:12px 14px;border-radius:8px;margin-top:10px}
+.box.rv{border-left-color:#e07a7a}
+.box h4{font-size:.8rem;color:#9d95c4;font-weight:600;margin-bottom:4px}
+.btn{padding:11px 18px;border:none;border-radius:10px;background:#8a6df0;color:#fff;cursor:pointer;font-family:inherit;font-size:.95rem;font-weight:600}
+.btn.ghost{background:#2b2450;color:#cfc8ee;border:1px solid #453b80}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.row{display:flex;gap:8px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.score{display:flex;gap:6px;margin-top:6px}
+.score button{width:42px;height:42px;border-radius:10px;border:1px solid #453b80;background:#241d47;color:#cfc8ee;cursor:pointer;font-weight:700;font-family:inherit}
+.score button.on{background:#f5d67a;color:#241d47;border-color:#f5d67a}
+textarea{width:100%;margin-top:8px;background:#1a1534;border:1px solid #3d3470;color:#ece9f7;border-radius:10px;padding:10px;font-family:inherit;resize:vertical;min-height:62px}
+select{background:#241d47;color:#ece9f7;border:1px solid #453b80;border-radius:8px;padding:9px;font-family:inherit}
+table{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:10px}
+th,td{padding:8px 6px;border-bottom:1px solid #322a5c;text-align:left}
+th{color:#9d95c4;font-weight:600;position:sticky;top:0;background:#16122b}
+.st{font-size:.72rem;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.s0{background:#332a5f;color:#9d95c4}.s1{background:#4a3f86;color:#dcd4ff}
+.s2{background:#7a5a2a;color:#ffe3a3}.s3{background:#2f6b4a;color:#b6f0d0}.s4{background:#7a2f3a;color:#ffc9d0}
+.tbl{max-height:460px;overflow:auto;border:1px solid #322a5c;border-radius:12px;padding:0 10px}
+.qopt{display:block;width:100%;text-align:left;margin-top:8px;padding:12px;border-radius:10px;border:1px solid #3d3470;background:#241d47;color:#ece9f7;cursor:pointer;font-family:inherit}
+.qopt.ok{background:#2f6b4a;border-color:#2f6b4a}.qopt.no{background:#7a2f3a;border-color:#7a2f3a}
+.stat{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.stat div{flex:1;min-width:100px;background:#241d47;border-radius:12px;padding:12px;text-align:center}
+.stat b{display:block;font-size:1.4rem;color:#f5d67a}
+.stat span{font-size:.75rem;color:#9d95c4}
+.due{background:#241d47;border-radius:10px;padding:10px 12px;margin-top:8px;display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+small{color:#9d95c4}
 </style>
 </head>
 <body>
+<div class="wrap">
 <header>
-  <h1>✦ TAROT ACADEMY ✦</h1>
-  <p>ระบบบทเรียนไพ่ทาโรต์เชิงระบบ · 78 ใบ · วัดผล · ทบทวนเว้นระยะ</p>
+  <h1>แพลตฟอร์มเรียนไพ่ทาโรต์ 78 ใบ</h1>
+  <div class="sub">เรียน · ทบทวนแบบเว้นช่วง · ทดสอบ · ติดตามความคืบหน้า</div>
+  <div class="bar"><i id="pbar"></i></div>
+  <div class="sub"><span id="ptxt">0 / 78</span></div>
 </header>
 
 <nav>
-  <button class="active" data-t="home">ภาพรวม</button>
-  <button data-t="lesson">บทเรียน</button>
-  <button data-t="codex">คลังไพ่ 78</button>
-  <button data-t="quiz">แบบทดสอบ</button>
-  <button data-t="srs">ทบทวน (SRS)</button>
-  <button data-t="spread">ฝึกเปิดไพ่</button>
-  <button data-t="report">รายงานผล</button>
+  <button class="on" data-v="learn">เรียนทีละใบ</button>
+  <button data-v="review">ทบทวนวันนี้</button>
+  <button data-v="quiz">แบบทดสอบ</button>
+  <button data-v="prog">ความคืบหน้า</button>
 </nav>
 
-<main>
-<section id="home" class="active">
-  <h2>ความคืบหน้าของผู้เรียน</h2>
-  <div class="card-panel">
-    <div><b>ความคืบหน้ารวม</b> <span id="pctTxt" class="muted"></span></div>
-    <div class="bar"><i id="pctBar" style="width:0%"></i></div>
-    <div class="grid" style="margin-top:14px">
-      <div class="tcard"><div class="nm" id="sLesson">0/8</div><div class="th">บทเรียนที่ผ่าน</div></div>
-      <div class="tcard"><div class="nm" id="sCard">0/78</div><div class="th">ไพ่ที่แม่นแล้ว</div></div>
-      <div class="tcard"><div class="nm" id="sQuiz">0</div><div class="th">ครั้งที่สอบ</div></div>
-      <div class="tcard"><div class="nm" id="sAcc">—</div><div class="th">ความแม่นยำเฉลี่ย</div></div>
+<!-- เรียน -->
+<section class="view on" id="v-learn">
+  <div class="row" style="margin:0 0 12px">
+    <select id="jump" style="flex:1"></select>
+    <button class="btn ghost" id="rand">สุ่มใบ</button>
+  </div>
+  <div class="card">
+    <div class="meta">
+      <span class="chip" id="c-no"></span>
+      <span class="chip" id="c-suit"></span>
+      <span class="chip el" id="c-el"></span>
+      <span class="chip" id="c-stat"></span>
+    </div>
+    <div class="cname" id="c-en"></div>
+    <div class="cth" id="c-th"></div>
+    <div class="kw" id="c-kw"></div>
+    <button class="btn" id="flip">เปิดความหมาย</button>
+    <div class="rev" id="rev">
+      <div class="box"><h4>ความหมายไพ่ตั้ง</h4><div id="c-up"></div></div>
+      <div class="box rv"><h4>ความหมายไพ่กลับหัว</h4><div id="c-rv"></div></div>
+      <div style="margin-top:14px">
+        <small>ให้คะแนนความแม่นของตัวเอง (1 = จำไม่ได้ · 5 = อธิบายได้ครบ)</small>
+        <div class="score" id="score"></div>
+      </div>
+      <textarea id="note" placeholder="จดประโยคตัวอย่างจากชีวิตจริงของคุณสำหรับไพ่ใบนี้..."></textarea>
+    </div>
+    <div class="row">
+      <button class="btn ghost" id="prev">ย้อนกลับ</button>
+      <button class="btn" id="next" style="flex:1">ถัดไป →</button>
     </div>
   </div>
-  <h2>เส้นทางการเรียนรู้</h2>
-  <div class="card-panel">
-    <ol>
-      <li><b>ระดับรู้จำ:</b> จดจำชื่อไพ่ ธาตุ และคำสำคัญ</li>
-      <li><b>ระดับเข้าใจ:</b> อธิบายความหมายตั้ง–กลับ และเลขศาสตร์</li>
-      <li><b>ระดับประยุกต์:</b> อ่านไพ่ในสเปรดจริง</li>
-      <li><b>ระดับวิเคราะห์:</b> สังเคราะห์ความสัมพันธ์ระหว่างไพ่</li>
-    </ol>
-    <p class="muted" style="margin-top:8px">ข้อมูลบันทึกอัตโนมัติในเครื่อง · กลับมาเรียนต่อได้ทุกเมื่อ</p>
+</section>
+
+<!-- ทบทวน -->
+<section class="view" id="v-review">
+  <div class="card">
+    <h3 style="color:#f5d67a">ไพ่ที่ถึงกำหนดทบทวน</h3>
+    <small>ระบบเว้นช่วง: รอบ 1 (+1 วัน) · รอบ 2 (+3) · รอบ 3 (+7) · รอบ 4 (+14) · รอบ 5 (+30)</small>
+    <div id="dueList"></div>
   </div>
 </section>
 
-<section id="lesson"><h2>หลักสูตร 8 หน่วยการเรียน</h2><div id="lessonList"></div></section>
-
-<section id="codex">
-  <h2>คลังไพ่ทาโรต์ 78 ใบ</h2>
-  <div class="card-panel">
-    <input id="search" placeholder="ค้นหาชื่อไพ่ / คำสำคัญ..." style="width:100%;padding:10px;border-radius:8px;border:1px solid #383158;background:#221e3a;color:var(--txt);font-family:inherit">
-    <div style="margin-top:8px">
-      <button class="btn ghost" data-f="all">ทั้งหมด</button>
-      <button class="btn ghost" data-f="major">Major 22</button>
-      <button class="btn ghost" data-f="Wands">Wands</button>
-      <button class="btn ghost" data-f="Cups">Cups</button>
-      <button class="btn ghost" data-f="Swords">Swords</button>
-      <button class="btn ghost" data-f="Pentacles">Pentacles</button>
+<!-- ทดสอบ -->
+<section class="view" id="v-quiz">
+  <div class="card">
+    <div class="row" style="margin:0 0 10px">
+      <select id="qmode"><option value="m2n">อ่านความหมาย → ทายชื่อไพ่</option><option value="n2m">เห็นชื่อไพ่ → ทายความหมาย</option><option value="k2n">อ่านคำสำคัญ → ทายชื่อไพ่</option></select>
+      <span class="chip" id="qscore">0 / 0</span>
     </div>
-  </div>
-  <div class="grid" id="codexGrid"></div>
-</section>
-
-<section id="quiz">
-  <h2>ระบบแบบทดสอบ</h2>
-  <div class="card-panel" id="quizMenu">
-    <h3>เลือกชุดข้อสอบ</h3>
-    <button class="btn" data-q="major">Major Arcana (10 ข้อ)</button>
-    <button class="btn" data-q="suit">ธาตุ &amp; ชุดไพ่ (10 ข้อ)</button>
-    <button class="btn" data-q="rev">ความหมายไพ่กลับ (10 ข้อ)</button>
-    <button class="btn alt" data-q="final">ข้อสอบรวบยอด (20 ข้อ)</button>
-  </div>
-  <div class="card-panel" id="quizBox" style="display:none"></div>
-</section>
-
-<section id="srs">
-  <h2>การทบทวนแบบเว้นระยะ</h2>
-  <div class="card-panel">
-    <p class="muted">อิงเส้นโค้งการลืมของ Ebbinghaus — ตอบถูกจะเลื่อนทบทวนไกลขึ้น ตอบผิดจะวนกลับมาเร็ว</p>
-    <div style="margin-top:8px"><span class="pill">ถึงกำหนดวันนี้: <b id="dueCount">0</b> ใบ</span></div>
-    <button class="btn" id="startSrs">เริ่มทบทวน</button>
-  </div>
-  <div id="srsBox"></div>
-</section>
-
-<section id="spread">
-  <h2>โมดูลฝึกเปิดไพ่</h2>
-  <div class="card-panel">
-    <p class="muted">ระบบสุ่มไพ่พร้อมสถานะกลับหัวตามความน่าจะเป็นจริง · ตำแหน่งเป็นตัวกำหนดบริบทของความหมาย</p>
-    <button class="btn" onclick="startSpread('three')">Three-Card (3 ใบ)</button>
-    <button class="btn" onclick="startSpread('sao')">Situation–Action–Outcome (3 ใบ)</button>
-    <button class="btn alt" onclick="startSpread('celtic')">Celtic Cross (10 ใบ)</button>
-  </div>
-  <div id="spreadBox"></div>
-  <h2>สมุดบันทึกการอ่าน</h2>
-  <div id="journalBox"></div>
-</section>
-
-<section id="report">
-  <h2>รายงานผลการเรียนรู้</h2>
-  <div class="card-panel" id="reportBox"></div>
-  <div class="card-panel">
-    <h3>สำรองและย้ายข้อมูล</h3>
-    <button class="btn ghost" id="expBtn">ส่งออกข้อมูล (JSON)</button>
-    <button class="btn ghost" id="resetBtn" style="border-color:var(--bad);color:var(--bad)">ล้างข้อมูลทั้งหมด</button>
-    <textarea class="ta" id="expArea" style="display:none"></textarea>
-    <h3>นำเข้าข้อมูลจากอุปกรณ์อื่น</h3>
-    <p class="muted">วางข้อความ JSON ที่ส่งออกไว้ แล้วกดนำเข้า ระบบจะรวมข้อมูลเข้าด้วยกัน</p>
-    <textarea class="ta" id="impArea" placeholder='{"lessons":...}'></textarea>
-    <button class="btn" id="impBtn">นำเข้าข้อมูล</button>
+    <div class="box" id="qtext" style="font-size:1.05rem"></div>
+    <div id="qopts"></div>
+    <div class="row"><button class="btn" id="qnext" style="flex:1">ข้อถัดไป</button>
+    <button class="btn ghost" id="qreset">ล้างคะแนน</button></div>
   </div>
 </section>
-</main>
 
-<div class="modal" id="modal"><div class="modal-in" id="modalIn"></div></div>
+<!-- ความคืบหน้า -->
+<section class="view" id="v-prog">
+  <div class="card">
+    <div class="stat">
+      <div><b id="s-done">0</b><span>แม่นแล้ว</span></div>
+      <div><b id="s-learn">0</b><span>กำลังเรียน</span></div>
+      <div><b id="s-fix">0</b><span>ต้องรื้อใหม่</span></div>
+      <div><b id="s-none">0</b><span>ยังไม่เริ่ม</span></div>
+    </div>
+    <div class="tbl">
+      <table><thead><tr><th>#</th><th>ไพ่</th><th>ชุด</th><th>คะแนน</th><th>รอบ</th><th>สถานะ</th></tr></thead>
+      <tbody id="ptbody"></tbody></table>
+    </div>
+    <div class="row"><button class="btn ghost" id="reset">ล้างข้อมูลการเรียนทั้งหมด</button></div>
+  </div>
+</section>
+</div>
 
 <script>
-/* ============ 1. DATA ============ */
-const MAJOR=[
-["0","The Fool","คนโง่","เริ่มต้น, อิสระ, ศรัทธา, กล้าเสี่ยง","ประมาท, ไร้แผน, ลังเลไม่กล้าก้าว"],
-["I","The Magician","นักมายากล","ความสามารถ, ลงมือทำ, การสื่อสาร","หลอกลวง, ใช้พลังผิดทาง, ศักยภาพไม่ถูกใช้"],
-["II","The High Priestess","นักบวชหญิง","สัญชาตญาณ, ความลับ, ปัญญาภายใน","เก็บกด, เพิกเฉยเสียงภายใน, ความลับถูกเปิด"],
-["III","The Empress","จักรพรรดินี","ความอุดมสมบูรณ์, การหล่อเลี้ยง, ความงาม","พึ่งพิงเกินไป, หยุดนิ่ง, ละเลยการดูแลตนเอง"],
-["IV","The Emperor","จักรพรรดิ","อำนาจ, โครงสร้าง, วินัย, ผู้ปกป้อง","เผด็จการ, แข็งกร้าว, ขาดระเบียบ"],
-["V","The Hierophant","นักบวช","ขนบธรรมเนียม, การศึกษา, ที่ปรึกษา","ขบถต่อกรอบ, ยึดติดประเพณี, ความเชื่อสั่นคลอน"],
-["VI","The Lovers","คู่รัก","ความรัก, การเลือก, ความกลมกลืน, ค่านิยมร่วม","ขัดแย้ง, เลือกผิด, ความสัมพันธ์ไม่สมดุล"],
-["VII","The Chariot","ราชรถ","ชัยชนะ, มุ่งมั่น, ควบคุมทิศทางได้","สูญเสียการควบคุม, ก้าวร้าว, ไร้เป้าหมาย"],
-["VIII","Strength","พลัง","ความกล้าหาญ, ความอดทน, เมตตา, พลังภายใน","ไม่มั่นใจ, อ่อนแอภายใน, ใช้กำลังแทนปัญญา"],
-["IX","The Hermit","ฤๅษี","ค้นหาตนเอง, สันโดษ, ปัญญา, การชี้นำ","โดดเดี่ยว, ปลีกตัวเกินไป, ปฏิเสธคำแนะนำ"],
-["X","Wheel of Fortune","กงล้อโชคชะตา","วัฏจักร, จุดเปลี่ยน, โชคดี, จังหวะชีวิต","เคราะห์ร้าย, ต้านการเปลี่ยนแปลง, วงจรซ้ำเดิม"],
-["XI","Justice","ความยุติธรรม","ความเป็นธรรม, เหตุผล, กฎแห่งกรรม, ความรับผิดชอบ","อคติ, ไม่เป็นธรรม, เลี่ยงความรับผิดชอบ"],
-["XII","The Hanged Man","ชายแขวนคอ","หยุดพัก, มุมมองใหม่, การเสียสละ","ติดค้าง, เสียสละไร้ผล, ดื้อไม่ยอมเปลี่ยนมุมมอง"],
-["XIII","Death","ความตาย","การสิ้นสุด, การแปรเปลี่ยน, การเริ่มใหม่","ต้านทานการจบ, ค้างคา, เปลี่ยนแปลงล่าช้า"],
-["XIV","Temperance","ความพอดี","สมดุล, การผสานสิ่งต่าง, ความอดทน, การเยียวยา","สุดโต่ง, เสียสมดุล, ใจร้อน"],
-["XV","The Devil","ปีศาจ","พันธนาการ, กิเลส, การเสพติด, ความหมกมุ่น","การปลดปล่อย, ตัดวงจร, ตระหนักถึงโซ่ตรวน"],
-["XVI","The Tower","หอคอย","พังทลายฉับพลัน, ความจริงเปิดเผย, การล้มโครงสร้างเดิม","เลี่ยงหายนะได้, ล่าช้าแต่ยังต้องพัง, วิกฤตภายใน"],
-["XVII","The Star","ดวงดาว","ความหวัง, แรงบันดาลใจ, การเยียวยา, ศรัทธา","สิ้นหวัง, ขาดศรัทธา, มองไม่เห็นทาง"],
-["XVIII","The Moon","ดวงจันทร์","ภาพลวง, ความกลัว, จิตใต้สำนึก, ความคลุมเครือ","ความจริงปรากฏ, คลายความสับสน, เผชิญความกลัว"],
-["XIX","The Sun","ดวงอาทิตย์","ความสำเร็จ, ความสุข, ความชัดเจน, พลังชีวิต","มองโลกเกินจริง, ความสุขชะงัก, ความสำเร็จล่าช้า"],
-["XX","Judgement","การพิพากษา","การตื่นรู้, ประเมินตนเอง, เสียงเรียกภายใน","ตัดสินตนรุนแรง, เพิกเฉยสัญญาณ, ติดอยู่กับอดีต"],
-["XXI","The World","โลก","ครบวงจร, สำเร็จสมบูรณ์, การบูรณาการ, การเดินทาง","ยังไม่จบ, เป้าหมายค้างคา, ขาดบทสรุป"]];
-
-const SUITS={
- Wands:{th:"ไม้เท้า",el:"ไฟ (Fire)",dom:"แรงบันดาลใจ การงาน พลังขับเคลื่อน"},
- Cups:{th:"ถ้วย",el:"น้ำ (Water)",dom:"อารมณ์ ความรัก ความสัมพันธ์"},
- Swords:{th:"ดาบ",el:"ลม (Air)",dom:"ความคิด การสื่อสาร ความขัดแย้ง"},
- Pentacles:{th:"เหรียญ",el:"ดิน (Earth)",dom:"การเงิน งาน สุขภาพ วัตถุ"}};
-
-const MINOR=[
-["Wands","Ace","เอซไม้เท้า","แรงบันดาลใจใหม่, ประกายไฟแรกเริ่ม, โอกาสด้านการงานที่เพิ่งปรากฏ","ไอเดียที่ไม่ถูกลงมือ, พลังชะงัก, เริ่มต้นผิดจังหวะ"],
-["Wands","Two","สองไม้เท้า","การวางแผนระยะยาว, มองไกล, ตัดสินใจขยายขอบเขต","กลัวก้าวออกจากเขตปลอดภัย, แผนไม่ชัดเจน"],
-["Wands","Three","สามไม้เท้า","การขยายตัว, เห็นผลจากการลงทุน, วิสัยทัศน์เริ่มเป็นรูปธรรม","ความล่าช้า, วิสัยทัศน์คับแคบ, แผนสะดุด"],
-["Wands","Four","สี่ไม้เท้า","ความสำเร็จขั้นต้น, งานเฉลิมฉลอง, ความมั่นคงในบ้าน","ความสุขไม่สมบูรณ์, ขัดแย้งในครอบครัว, ฉลองก่อนเวลา"],
-["Wands","Five","ห้าไม้เท้า","การแข่งขัน, ความเห็นต่าง, ความวุ่นวายที่ยังไม่รุนแรง","หลีกเลี่ยงการปะทะ, ขัดแย้งภายในใจ, ยอมประนีประนอม"],
-["Wands","Six","หกไม้เท้า","ชัยชนะ, การได้รับการยอมรับจากสาธารณะ, ความภาคภูมิใจ","ขาดการยอมรับ, ความสำเร็จถูกบดบัง, หยิ่งผยอง"],
-["Wands","Seven","เจ็ดไม้เท้า","การปกป้องจุดยืน, ยืนหยัดต้านแรงกดดัน, ความได้เปรียบเชิงตำแหน่ง","ยอมแพ้, เสียเปรียบ, ถูกกดดันจนถอย"],
-["Wands","Eight","แปดไม้เท้า","ความรวดเร็ว, ข่าวสารมาไว, เหตุการณ์เร่งตัว, การเดินทาง","ความล่าช้า, สื่อสารคลาดเคลื่อน, รีบจนพลาด"],
-["Wands","Nine","เก้าไม้เท้า","ความอดทนในยกสุดท้าย, ความระแวดระวัง, บาดแผลจากอดีต","หมดแรงสู้, หวาดระแวงเกินเหตุ, ยอมวางการ์ดลง"],
-["Wands","Ten","สิบไม้เท้า","ภาระหนักเกินตัว, ความรับผิดชอบที่แบกคนเดียว","การปลดภาระ, กระจายงาน, แบกจนพังทลาย"],
-["Wands","Page","เพจไม้เท้า","ข่าวดีเรื่องงาน, ความกระตือรือร้น, ผู้เริ่มต้นที่มีไฟ","ไร้ทิศทาง, ข่าวล่าช้า, ไฟดับเร็ว"],
-["Wands","Knight","อัศวินไม้เท้า","การลงมือทันที, การผจญภัย, พลังงานสูง","หุนหันพลันแล่น, เปลี่ยนใจง่าย, ก้าวร้าว"],
-["Wands","Queen","ราชินีไม้เท้า","ความมั่นใจ, เสน่ห์ดึงดูด, ผู้นำที่อบอุ่น","ขี้หึง, เรียกร้องความสนใจ, ไม่มั่นใจในตนเอง"],
-["Wands","King","ราชาไม้เท้า","ผู้นำเชิงวิสัยทัศน์, ผู้ประกอบการ, กล้าตัดสินใจ","เผด็จการ, ผลีผลาม, คาดหวังผู้อื่นสูงเกิน"],
-["Cups","Ace","เอซถ้วย","ความรักใหม่, อารมณ์เบิกบาน, การเปิดใจรับ","อารมณ์ถูกกดทับ, ความรักที่ไม่ได้แสดงออก, ผิดหวังเล็กน้อย"],
-["Cups","Two","สองถ้วย","ความสัมพันธ์คู่, ความผูกพัน, ข้อตกลงที่เกิดจากใจ","ไม่สมดุลในคู่, การแยกทาง, สื่อสารไม่ตรงกัน"],
-["Cups","Three","สามถ้วย","มิตรภาพ, การเฉลิมฉลอง, ชุมชนที่เกื้อหนุน","การนินทา, บุคคลที่สาม, สังคมเป็นพิษ"],
-["Cups","Four","สี่ถ้วย","ความเบื่อหน่าย, มองข้ามโอกาสตรงหน้า, ถอยเข้าในตนเอง","ตื่นจากความซึมเซา, ยอมรับข้อเสนอ, เห็นคุณค่าใหม่"],
-["Cups","Five","ห้าถ้วย","ความเสียใจ, การสูญเสีย, จดจ่อกับสิ่งที่หายไป","เริ่มให้อภัย, หันมองสิ่งที่ยังเหลือ, ก้าวข้ามความเศร้า"],
-["Cups","Six","หกถ้วย","ความทรงจำวัยเยาว์, คนเก่าหวนกลับ, ความบริสุทธิ์ใจ","ติดอยู่ในอดีต, โหยหาเกินพอดี, ถึงเวลาปล่อยวาง"],
-["Cups","Seven","เจ็ดถ้วย","ทางเลือกมากมาย, จินตนาการ, ภาพลวงตา","ตัดสินใจได้แล้ว, เห็นความจริง, คัดตัวเลือกลวงออก"],
-["Cups","Eight","แปดถ้วย","การเดินจากไป, แสวงหาความหมายที่ลึกกว่า","ลังเลว่าจะไปหรืออยู่, หวนกลับไปหาสิ่งเดิม"],
-["Cups","Nine","เก้าถ้วย","ความสมปรารถนา, ความพึงพอใจ (ไพ่แห่งคำอธิษฐาน)","ความสุขผิวเผิน, สมหวังแต่ว่างเปล่า, ตามใจตนเกิน"],
-["Cups","Ten","สิบถ้วย","ความสุขในครอบครัว, ความสมบูรณ์ทางอารมณ์","ภาพครอบครัวที่แตกร้าว, ค่านิยมไม่ตรงกัน"],
-["Cups","Page","เพจถ้วย","ข่าวสารเรื่องความรัก, ความอ่อนไหว, แรงบันดาลใจทางศิลปะ","เจ้าอารมณ์, เพ้อฝัน, ข่าวความรักที่ผิดหวัง"],
-["Cups","Knight","อัศวินถ้วย","ผู้มาเสนอความรัก, ความโรแมนติก, การเดินตามหัวใจ","ไม่จริงใจ, อารมณ์แปรปรวน, คำหวานที่ลวงตา"],
-["Cups","Queen","ราชินีถ้วย","ความเห็นอกเห็นใจ, สัญชาตญาณสูง, ผู้เยียวยา","จมกับอารมณ์ผู้อื่น, พึ่งพิง, ขอบเขตส่วนตัวไม่ชัด"],
-["Cups","King","ราชาถ้วย","วุฒิภาวะทางอารมณ์, ควบคุมใจได้, ที่ปรึกษาที่เมตตา","เก็บกด, บงการทางอารมณ์, เย็นชา"],
-["Swords","Ace","เอซดาบ","ความกระจ่าง, ความจริงปรากฏ, ความคิดเฉียบคม","ความคิดสับสน, ใช้เหตุผลผิดทาง, ข้อมูลบิดเบือน"],
-["Swords","Two","สองดาบ","ทางสองแพร่ง, การเลี่ยงตัดสินใจ, การปิดตาตนเอง","ตัดสินใจได้แล้ว, เผชิญความจริง, ข้อมูลครบถ้วน"],
-["Swords","Three","สามดาบ","ความเจ็บปวดใจ, คำพูดที่ทำร้าย, การพลัดพราก","เริ่มเยียวยา, การให้อภัย, แผลที่ยังไม่ปิดสนิท"],
-["Swords","Four","สี่ดาบ","การพักฟื้น, หยุดคิด, ถอยเพื่อฟื้นพลัง","กลับมาทำงาน, พักผ่อนไม่พอ, ภาวะหมดไฟ"],
-["Swords","Five","ห้าดาบ","ชัยชนะที่ต้องแลกมา, ความขัดแย้งรุนแรง, ศักดิ์ศรี","การคืนดี, ยอมถอย, บทเรียนจากการปะทะ"],
-["Swords","Six","หกดาบ","การเปลี่ยนผ่าน, เดินทางสู่ที่สงบกว่า, ทิ้งเรื่องเก่า","ติดค้างในสถานการณ์เดิม, การเดินทางล่าช้า"],
-["Swords","Seven","เจ็ดดาบ","กลยุทธ์แยบยล, การปกปิด, เลี่ยงการเผชิญหน้า","ความลับถูกเปิดเผย, สำนึกผิด, เลิกหลอกตนเอง"],
-["Swords","Eight","แปดดาบ","ความรู้สึกติดกับ, ข้อจำกัดที่สร้างขึ้นเอง","การหลุดพ้น, มองเห็นทางออก, กล้าขยับ"],
-["Swords","Nine","เก้าดาบ","ความวิตกกังวล, นอนไม่หลับ, ความกลัวที่ขยายตัวในใจ","ความกลัวคลี่คลาย, ขอความช่วยเหลือ, มองตามความจริง"],
-["Swords","Ten","สิบดาบ","จุดต่ำสุด, การจบอย่างเจ็บปวด, การถูกทรยศ","ฟื้นจากจุดต่ำสุด, เริ่มต้นใหม่, ยังปล่อยวางไม่ได้"],
-["Swords","Page","เพจดาบ","ความอยากรู้, การเฝ้าสังเกต, ข่าวสารที่ต้องตรวจสอบ","การสอดรู้, พูดโดยไม่ไตร่ตรอง, ข้อมูลเท็จ"],
-["Swords","Knight","อัศวินดาบ","การพุ่งชนตรงเป้า, กล้าพูดกล้าทำ, ความเร่งรีบ","ก้าวร้าว, วาจาทำร้าย, ขาดการไตร่ตรอง"],
-["Swords","Queen","ราชินีดาบ","การตัดสินด้วยเหตุผล, ตรงไปตรงมา, ปัญญาจากความเจ็บปวด","เย็นชา, วิจารณ์รุนแรง, ความขมขื่นฝังลึก"],
-["Swords","King","ราชาดาบ","ผู้ทรงปัญญา, ความยุติธรรม, นักวิเคราะห์ชั้นเลิศ","ใช้เหตุผลข่มผู้อื่น, เผด็จการทางความคิด"],
-["Pentacles","Ace","เอซเหรียญ","โอกาสทางการเงินใหม่, ทรัพยากรที่จับต้องได้","โอกาสหลุดมือ, แผนการเงินไม่มั่นคง"],
-["Pentacles","Two","สองเหรียญ","การบริหารหลายเรื่องพร้อมกัน, ความยืดหยุ่น","เสียสมดุล, จัดการไม่ไหว, ภาระซ้อนทับ"],
-["Pentacles","Three","สามเหรียญ","การทำงานเป็นทีม, ฝีมือได้รับการยอมรับ, การเรียนรู้งาน","ทีมไม่ประสานกัน, งานคุณภาพต่ำ, ขาดการยอมรับ"],
-["Pentacles","Four","สี่เหรียญ","การเก็บออม, ความมั่นคง, การยึดครองทรัพยากร","ความตระหนี่, กลัวสูญเสีย, ถึงเวลาปล่อยวางวัตถุ"],
-["Pentacles","Five","ห้าเหรียญ","ความขาดแคลน, ความรู้สึกถูกทอดทิ้ง, วิกฤตการเงิน","การฟื้นตัว, ได้รับความช่วยเหลือ, พ้นช่วงลำบาก"],
-["Pentacles","Six","หกเหรียญ","การให้และรับอย่างสมดุล, ความเอื้อเฟื้อ, ผู้อุปถัมภ์","การให้ที่มีเงื่อนไข, หนี้สิน, ความไม่เท่าเทียม"],
-["Pentacles","Seven","เจ็ดเหรียญ","การรอผลระยะยาว, ประเมินผลการลงทุน, ความอดทน","ผลตอบแทนไม่คุ้ม, ใจร้อน, ลงทุนผิดที่"],
-["Pentacles","Eight","แปดเหรียญ","การฝึกฝน, ความประณีต, การพัฒนาทักษะ","งานซ้ำซากจำเจ, ขาดคุณภาพ, ไร้แรงจูงใจ"],
-["Pentacles","Nine","เก้าเหรียญ","ความสำเร็จด้วยตนเอง, อิสรภาพทางการเงิน","พึ่งพาผู้อื่น, ความมั่งคั่งที่เปราะบาง"],
-["Pentacles","Ten","สิบเหรียญ","มรดก, ความมั่งคั่งระยะยาว, ครอบครัวที่มั่นคง","ข้อพิพาทเรื่องมรดก, ความมั่นคงสั่นคลอน"],
-["Pentacles","Page","เพจเหรียญ","การเริ่มเรียนรู้ทักษะใหม่, ข่าวเรื่องเงินหรือการศึกษา","การผัดวันประกันพรุ่ง, ขาดวินัย"],
-["Pentacles","Knight","อัศวินเหรียญ","ความขยันสม่ำเสมอ, ทำทีละขั้น, ความน่าเชื่อถือ","เชื่องช้า, ยึดติดกิจวัตร, ไม่ยืดหยุ่น"],
-["Pentacles","Queen","ราชินีเหรียญ","ผู้ดูแลที่ปฏิบัติได้จริง, ความอบอุ่นและมั่นคง","ทำงานหนักจนละเลยตนเอง, กังวลเรื่องเงิน"],
-["Pentacles","King","ราชาเหรียญ","ความมั่งคั่ง, ผู้บริหารที่ประสบความสำเร็จ","ยึดติดวัตถุ, ใช้เงินควบคุมผู้อื่น"]];
-
-let DECK=[];
-MAJOR.forEach((m,i)=>DECK.push({id:"M"+i,name:m[1],th:m[2],grp:"major",num:m[0],up:m[3],rev:m[4],el:"—"}));
-MINOR.forEach(r=>DECK.push({id:r[0]+"-"+r[1],name:r[1]+" of "+r[0],th:r[2],grp:r[0],num:r[1],up:r[3],rev:r[4],el:SUITS[r[0]].el}));
-
-const LESSONS=[
- {t:"หน่วยที่ 1 · ปฐมบทและระเบียบวิธี",b:["โครงสร้างสำรับ 78 ใบ = Major 22 + Minor 56","Major Arcana = บทเรียนชีวิตระดับมหภาค","Minor Arcana = เหตุการณ์ประจำวันระดับจุลภาค","ทฤษฎีรองรับ: Archetype (Jung), Synchronicity, Semiotics"]},
- {t:"หน่วยที่ 2 · เส้นทางคนโง่ (Fool's Journey)",b:["0–VII: การก่อร่างอัตลักษณ์และโลกภายนอก","VIII–XIV: การเผชิญภายในและการปรับสมดุล","XV–XXI: การปลดพันธนาการสู่ความสมบูรณ์","ใช้เป็นโครงเรื่องช่วยจำ (Narrative Scaffold)"]},
- {t:"หน่วยที่ 3 · ธาตุทั้งสี่และชุดไพ่",b:["Wands = ไฟ → แรงบันดาลใจ, การงาน","Cups = น้ำ → อารมณ์, ความรัก","Swords = ลม → ความคิด, ความขัดแย้ง","Pentacles = ดิน → การเงิน, วัตถุ, สุขภาพ"]},
- {t:"หน่วยที่ 4 · เลขศาสตร์ในไพ่ชุดเล็ก",b:["Ace=จุดเริ่ม, 2=คู่/เลือก, 3=เติบโต, 4=เสถียร","5=วิกฤต, 6=กลมกลืน, 7=ประเมิน, 8=เคลื่อนไหว","9=เข้มข้นสูงสุด, 10=ครบวงจร","สูตรตีความ: ความหมายเลข × ธาตุของชุด"]},
- {t:"หน่วยที่ 5 · ไพ่ราชสำนัก (Court Cards)",b:["Page=ผู้เรียนรู้ · Knight=ผู้ลงมือ · Queen=ผู้หล่อเลี้ยง · King=ผู้นำ","ตีความได้ 3 ระดับ: ตัวบุคคล / บุคลิกผู้ถาม / สถานการณ์","ระวังการตีความเป็นบุคคลเสมอ"]},
- {t:"หน่วยที่ 6 · ไพ่กลับหัว (Reversals)",b:["สำนัก A: ความหมายตรงข้าม","สำนัก B: พลังงานถูกปิดกั้นหรือหันเข้าภายใน","สำนัก C: ความเข้มข้นมากเกินไป","ควรเลือกสำนักเดียวและใช้อย่างสม่ำเสมอ"]},
- {t:"หน่วยที่ 7 · รูปแบบการวางไพ่ (Spreads)",b:["Three-Card: อดีต–ปัจจุบัน–อนาคต","Situation–Action–Outcome: เน้นการตัดสินใจ","Celtic Cross 10 ใบ: วิเคราะห์เชิงลึก","หลักสำคัญ: ตำแหน่งกำหนดบริบทของความหมาย"]},
- {t:"หน่วยที่ 8 · จริยธรรมและการสังเคราะห์",b:["ไม่พยากรณ์เรื่องสุขภาพหรือกฎหมายแทนผู้เชี่ยวชาญ","เน้น Empowerment มิใช่ Determinism","สังเคราะห์ภาพรวมก่อน แล้วจึงลงรายใบ","บันทึกการอ่านเพื่อสอบทานย้อนหลัง"]}];
-
-/* ============ 2. STATE ============ */
-const KEY="tarot_lms_v2";
-let S=JSON.parse(localStorage.getItem(KEY)||'null')||{lessons:{},cards:{},quizzes:[],readings:[],created:Date.now()};
-S.lessons=S.lessons||{};S.cards=S.cards||{};S.quizzes=S.quizzes||[];S.readings=S.readings||[];
-const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
+const D=[
+["Major Arcana","จิตวิญญาณ","0","The Fool","คนโง่ผู้ไร้เดียงสา","เริ่มต้น ผจญภัย ไร้เดียงสา","การเริ่มต้นใหม่ การผจญภัย ความไร้เดียงสา การไม่กลัวความเสี่ยง","บุ่มบ่าม ประมาท เริ่มต้นโดยไม่วางแผน กลัวจนไม่กล้าก้าว"],
+["Major Arcana","จิตวิญญาณ","1","The Magician","นักมายากล","ความสามารถ ควบคุม สร้างสรรค์","ความสามารถ การควบคุม การใช้ทรัพยากร พลังสร้างสรรค์","ใช้ความสามารถผิดทาง หลอกลวง ขาดสมาธิ ไม่เชื่อมั่นในตัวเอง"],
+["Major Arcana","จิตวิญญาณ","2","The High Priestess","นักบวชหญิง","ปัญญาภายใน ลึกลับ สัญชาตญาณ","ปัญญาภายใน ความลึกลับ สัญชาตญาณ การรอคอย","ไม่ฟังเสียงภายใน ความลับถูกเปิดเผย สับสน ใจร้อนเกินรอ"],
+["Major Arcana","จิตวิญญาณ","3","The Empress","จักรพรรดินี","อุดมสมบูรณ์ สร้างสรรค์ ความเป็นแม่","ความอุดมสมบูรณ์ การสร้างสรรค์ ความเป็นแม่ การเติบโต","พึ่งพิงมากไป ดูแลคนอื่นจนลืมตัวเอง ความคิดตีบตัน"],
+["Major Arcana","จิตวิญญาณ","4","The Emperor","จักรพรรดิ","อำนาจ ปกครอง มั่นคง","อำนาจ การปกครอง ความมั่นคง ระเบียบวินัย","เผด็จการ ควบคุมมากเกินไป ขาดวินัย ไร้โครงสร้าง"],
+["Major Arcana","จิตวิญญาณ","5","The Hierophant","ผู้นำทางจิตวิญญาณ","ประเพณี ศรัทธา การสอน","ประเพณี ความศรัทธา การสอน การเรียนรู้","ยึดติดกรอบเดิม ต่อต้านระบบ ศรัทธาสั่นคลอน คิดนอกกรอบ"],
+["Major Arcana","จิตวิญญาณ","6","The Lovers","คู่รัก","ความรัก ตัดสินใจ สมดุล","ความรัก การตัดสินใจ ความสมดุล การเชื่อมต่อ","ความสัมพันธ์ไม่สมดุล ตัดสินใจผิด ค่านิยมขัดกัน"],
+["Major Arcana","จิตวิญญาณ","7","The Chariot","ราชรถ","มุ่งมั่น ควบคุม ก้าวหน้า","ความมุ่งมั่น การควบคุม ความสำเร็จ การก้าวไปข้างหน้า","ขาดทิศทาง ควบคุมตัวเองไม่ได้ ก้าวร้าว หยุดชะงัก"],
+["Major Arcana","จิตวิญญาณ","8","Strength","พลัง","พลังภายใน กล้าหาญ เมตตา","พลังภายใน ความกล้าหาญ การควบคุมตนเอง ความเมตตา","ขาดความมั่นใจ ใจร้อน ใช้กำลังแทนความอดทน"],
+["Major Arcana","จิตวิญญาณ","9","The Hermit","ฤๅษี","ค้นหาภายใน ทบทวน สงบ","การค้นหาความรู้ภายใน การคิดทบทวน ความเงียบสงบ","โดดเดี่ยวเกินไป ปิดกั้นตัวเอง ไม่ยอมฟังใคร"],
+["Major Arcana","จิตวิญญาณ","10","Wheel of Fortune","กงล้อแห่งโชคชะตา","เปลี่ยนแปลง โชคชะตา โอกาส","การเปลี่ยนแปลง โชคชะตา วัฏจักรชีวิต โอกาส","โชคไม่เข้าข้าง วนอยู่ที่เดิม ต้านการเปลี่ยนแปลง"],
+["Major Arcana","จิตวิญญาณ","11","Justice","ความยุติธรรม","ยุติธรรม สมดุล มีเหตุผล","ความยุติธรรม ความสมดุล การตัดสินใจอย่างมีเหตุผล","อคติ ไม่เป็นธรรม เลี่ยงความรับผิดชอบ ตัดสินด้วยอารมณ์"],
+["Major Arcana","จิตวิญญาณ","12","The Hanged Man","ชายผู้ถูกแขวน","หยุดชั่วคราว มุมมองใหม่ เสียสละ","การหยุดชั่วคราว มุมมองใหม่ การเสียสละ การพิจารณา","ดื้อรั้นไม่ยอมเปลี่ยนมุมมอง เสียเวลาเปล่า เสียสละโดยไร้ผล"],
+["Major Arcana","จิตวิญญาณ","13","Death","ความตาย","สิ้นสุด เปลี่ยนแปลง เกิดใหม่","การสิ้นสุด การเปลี่ยนแปลง การเกิดใหม่ การละทิ้งสิ่งเก่า","ฝืนยื้อสิ่งที่ควรจบ กลัวการเปลี่ยนแปลง ติดอยู่กับอดีต"],
+["Major Arcana","จิตวิญญาณ","14","Temperance","ความพอดี","สมดุล กลมกลืน อดทน","ความสมดุล ความกลมกลืน ความอดทน การประนีประนอม","สุดโต่ง ขาดสมดุล ใจร้อน ไม่ยอมประนีประนอม"],
+["Major Arcana","จิตวิญญาณ","15","The Devil","ปีศาจ","ยึดติด หมกมุ่น เสพติด","ความยึดติด ความหมกมุ่น การถูกควบคุม การเสพติด","เริ่มปลดพันธนาการ ตระหนักรู้ ตัดสิ่งที่ผูกมัดออกได้"],
+["Major Arcana","จิตวิญญาณ","16","The Tower","หอคอย","ล่มสลาย กะทันหัน วิกฤติ","การเปลี่ยนแปลงกะทันหัน การล่มสลาย วิกฤติเพื่อเกิดใหม่","เลี่ยงวิกฤติไว้ได้ชั่วคราว ฝืนโครงสร้างที่ผุพัง ความเปลี่ยนแปลงยืดเยื้อ"],
+["Major Arcana","จิตวิญญาณ","17","The Star","ดวงดาว","ความหวัง บันดาลใจ เยียวยา","ความหวัง แรงบันดาลใจ การรักษา พลังบวก","หมดหวัง ขาดแรงบันดาลใจ มองโลกในแง่ร้าย"],
+["Major Arcana","จิตวิญญาณ","18","The Moon","พระจันทร์","ลึกลับ จิตใต้สำนึก ไม่แน่นอน","ความลึกลับ จิตใต้สำนึก ความไม่แน่นอน การใช้สัญชาตญาณ","ความจริงเริ่มกระจ่าง คลายความกลัว ภาพลวงถูกเปิดโปง"],
+["Major Arcana","จิตวิญญาณ","19","The Sun","พระอาทิตย์","ความสุข สำเร็จ ชีวิตชีวา","ความสุข ความสำเร็จ ความรุ่งโรจน์ ชีวิตชีวา","ความสุขถูกบดบังชั่วคราว มองไม่เห็นด้านดี ความสำเร็จล่าช้า"],
+["Major Arcana","จิตวิญญาณ","20","Judgement","การพิพากษา","ตัดสินใจ ตื่นรู้ ฟื้นฟู","การตัดสินใจ การฟื้นฟู การตื่นรู้ การปลดปล่อยจากอดีต","ไม่ยอมรับความจริง ตัดสินตัวเองรุนแรง ลังเลไม่กล้าเริ่มใหม่"],
+["Major Arcana","จิตวิญญาณ","21","The World","โลก","สมบูรณ์ บรรลุเป้าหมาย","ความสมบูรณ์ ความสำเร็จ การบรรลุเป้าหมาย การเริ่มต้นใหม่","ยังไปไม่ถึงเป้าหมาย งานค้างคา ปิดวงจรไม่สมบูรณ์"],
+["Pentacles","ดิน","Ace","Ace of Pentacles","เหรียญ 1","เริ่มต้น โอกาสการเงิน","การเริ่มต้นใหม่ โอกาสทางการเงิน","พลาดโอกาสทางการเงิน แผนเงินไม่ชัด ลงทุนผิดจังหวะ"],
+["Pentacles","ดิน","2","Two of Pentacles","เหรียญ 2","ปรับตัว สมดุล จัดการ","การปรับตัว การสมดุลชีวิต การจัดการทรัพยากร","จัดการหลายเรื่องไม่ไหว เสียสมดุล การเงินรวน"],
+["Pentacles","ดิน","3","Three of Pentacles","เหรียญ 3","ทีมเวิร์ก ยอมรับ","การทำงานร่วมกัน การสร้างสิ่งใหม่ การได้รับการยอมรับ","ทีมไม่ลงรอย ผลงานไม่ถูกมองเห็น ขาดทักษะ"],
+["Pentacles","ดิน","4","Four of Pentacles","เหรียญ 4","มั่นคง ครอบครอง ยึดมั่น","การรักษาความมั่นคง การครอบครอง ความยึดมั่น","ตระหนี่เกินไป กลัวสูญเสีย หรือเริ่มปล่อยวางการยึดติด"],
+["Pentacles","ดิน","5","Five of Pentacles","เหรียญ 5","ขาดแคลน ยากลำบาก","ความยากลำบาก ความขาดแคลน ความท้าทาย","เริ่มฟื้นตัว ได้รับความช่วยเหลือ ผ่านช่วงขัดสน"],
+["Pentacles","ดิน","6","Six of Pentacles","เหรียญ 6","ให้และรับ น้ำใจ","ความสมดุลในการให้และรับ น้ำใจ การช่วยเหลือ","ให้ฝ่ายเดียว การช่วยเหลือมีเงื่อนไข หนี้สินไม่สมดุล"],
+["Pentacles","ดิน","7","Seven of Pentacles","เหรียญ 7","ประเมินผล รอคอย อดทน","การประเมินผล การรอคอยผลลัพธ์ ความอดทน","ใจร้อน ผลลัพธ์ไม่คุ้มแรง ลงทุนผิดทาง"],
+["Pentacles","ดิน","8","Eight of Pentacles","เหรียญ 8","ฝึกฝน พัฒนาทักษะ","การทำงานหนัก การพัฒนาทักษะ ความมุ่งมั่น","ทำงานซ้ำซากไร้เป้าหมาย ขาดความตั้งใจ งานหยาบ"],
+["Pentacles","ดิน","9","Nine of Pentacles","เหรียญ 9","มั่งคั่ง พึงพอใจ","ความสำเร็จ ความมั่งคั่ง ความพึงพอใจ","พึ่งพาคนอื่นทางการเงิน ใช้จ่ายเกินตัว ยังไม่พอใจในสิ่งที่มี"],
+["Pentacles","ดิน","10","Ten of Pentacles","เหรียญ 10","มั่นคงยั่งยืน มรดก ครอบครัว","ความมั่นคงในชีวิต มรดก ครอบครัวที่สมบูรณ์","ปัญหาครอบครัว มรดกขัดแย้ง ฐานะไม่มั่นคงระยะยาว"],
+["Pentacles","ดิน","Page","Page of Pentacles","อัศวินฝึกหัดเหรียญ","เริ่มต้น เรียนรู้ พัฒนาตน","การเริ่มต้นใหม่ ความคิดสร้างสรรค์ การพัฒนาตนเอง","ผัดวันประกันพรุ่ง ไม่ลงมือ ขาดวินัยในการเรียนรู้"],
+["Pentacles","ดิน","Knight","Knight of Pentacles","อัศวินเหรียญ","ขยัน มั่นคง อดทน","ความขยันหมั่นเพียร ความมั่นคง ความอดทน","เชื่องช้า ยึดติดกิจวัตร ขาดความยืดหยุ่น"],
+["Pentacles","ดิน","Queen","Queen of Pentacles","ราชินีเหรียญ","อบอุ่น มั่นคง บริหาร","ความมั่นคง ความอบอุ่น การจัดการทรัพยากร","ทุ่มเทงานจนละเลยตัวเอง กังวลเรื่องเงิน ดูแลคนอื่นเกินพอดี"],
+["Pentacles","ดิน","King","King of Pentacles","ราชาเหรียญ","มั่งคั่ง ผู้นำ ประสิทธิภาพ","ความสำเร็จ ความมั่งคั่ง ผู้นำที่มีประสิทธิภาพ","ยึดวัตถุเป็นใหญ่ ดื้อรั้น ใช้อำนาจทางการเงินกดคนอื่น"],
+["Cups","น้ำ","Ace","Ace of Cups","ถ้วย 1","เริ่มต้นอารมณ์ เติมเต็ม","เริ่มต้นใหม่ทางอารมณ์ ความสุข การเติมเต็ม","ปิดกั้นความรู้สึก ความรักชะงัก อารมณ์ว่างเปล่า"],
+["Cups","น้ำ","2","Two of Cups","ถ้วย 2","ความสัมพันธ์ ร่วมมือ","ความสัมพันธ์ การร่วมมือ ความรักที่สมดุล","ความสัมพันธ์ไม่สมดุล ผิดใจกัน ขาดความไว้ใจ"],
+["Cups","น้ำ","3","Three of Cups","ถ้วย 3","เฉลิมฉลอง มิตรภาพ","การเฉลิมฉลอง มิตรภาพ ความสำเร็จจากการร่วมมือ","สังสรรค์เกินพอดี มิตรภาพร้าว รู้สึกโดดเดี่ยวในกลุ่ม"],
+["Cups","น้ำ","4","Four of Cups","ถ้วย 4","เบื่อหน่าย มองข้ามโอกาส","การมองไม่เห็นโอกาส ความเบื่อหน่าย การพิจารณาตนเอง","เริ่มเปิดใจรับโอกาส ตื่นจากความเฉื่อยชา"],
+["Cups","น้ำ","5","Five of Cups","ถ้วย 5","สูญเสีย เสียใจ","ความสูญเสีย ความเสียใจ การเรียนรู้จากความทุกข์","เริ่มยอมรับและก้าวต่อ ให้อภัย เห็นสิ่งที่ยังเหลืออยู่"],
+["Cups","น้ำ","6","Six of Cups","ถ้วย 6","อดีต ความทรงจำ บริสุทธิ์","ความทรงจำในอดีต ความบริสุทธิ์ การย้อนระลึก","ติดอยู่ในอดีต โหยหาสิ่งที่ไม่กลับมา ไม่โตทางอารมณ์"],
+["Cups","น้ำ","7","Seven of Cups","ถ้วย 7","ความฝัน ทางเลือกมาก","ความฝัน จินตนาการ ทางเลือกที่หลากหลาย","ตัดสินใจได้ชัดเจนขึ้น หรือหลงในภาพลวง เพ้อฝันเกินจริง"],
+["Cups","น้ำ","8","Eight of Cups","ถ้วย 8","ละทิ้ง ค้นหาความหมาย","การละทิ้งบางสิ่ง การค้นหาความหมายใหม่","ลังเลไม่กล้าจากไป ทนอยู่กับสิ่งที่ไม่เติมเต็ม"],
+["Cups","น้ำ","9","Nine of Cups","ถ้วย 9","สมหวัง พึงพอใจ","ความสมหวัง ความพึงพอใจ การเติมเต็ม","สุขผิวเผิน ความปรารถนาไม่เป็นจริง พอใจกับสิ่งฉาบฉวย"],
+["Cups","น้ำ","10","Ten of Cups","ถ้วย 10","ครอบครัวอบอุ่น สุขสมบูรณ์","ความสุขสมบูรณ์ ความรักที่มั่นคง ครอบครัวที่อบอุ่น","ครอบครัวห่างเหิน ภาพความสุขไม่ตรงความจริง"],
+["Cups","น้ำ","Page","Page of Cups","อัศวินฝึกหัดถ้วย","สร้างสรรค์ เปิดกว้าง","ความสร้างสรรค์ ความเปิดกว้าง การสำรวจความรู้สึก","อ่อนไหวเกินไป หนีความจริง ความคิดสร้างสรรค์ตัน"],
+["Cups","น้ำ","Knight","Knight of Cups","อัศวินถ้วย","โรแมนติก ข้อเสนอ เคลื่อนไหว","การเคลื่อนไหว การส่งข้อเสนอ ความโรแมนติก","เจ้าอารมณ์ สัญญาลมปาก ความรักที่ไม่จริงใจ"],
+["Cups","น้ำ","Queen","Queen of Cups","ราชินีถ้วย","เมตตา สงบ สัญชาตญาณ","ความสงบสุข ความเมตตา สัญชาตญาณสูง","อ่อนไหวจนเสียสมดุล แบกอารมณ์คนอื่น ปล่อยวางไม่เป็น"],
+["Cups","น้ำ","King","King of Cups","ราชาถ้วย","ผู้นำเมตตา มั่นคงทางใจ","ผู้นำที่เมตตา ความมั่นคงทางอารมณ์ การสนับสนุนผู้อื่น","เก็บกดอารมณ์ ควบคุมคนด้วยความรู้สึก อารมณ์แปรปรวน"],
+["Swords","ลม","Ace","Ace of Swords","ดาบ 1","ความคิดใหม่ ชัดเจน ความจริง","การเริ่มต้นใหม่ทางความคิด ความชัดเจน ความจริง","ความคิดสับสน ข้อมูลผิดพลาด ใช้คำพูดทำร้ายคน"],
+["Swords","ลม","2","Two of Swords","ดาบ 2","ลังเล ตัดสินใจยาก","การตัดสินใจที่ยากลำบาก ความลังเล การหาความสมดุล","เลี่ยงการตัดสินใจนานเกินไป ข้อมูลเริ่มกระจ่าง ต้องเลือกแล้ว"],
+["Swords","ลม","3","Three of Swords","ดาบ 3","เจ็บปวด ผิดหวัง แยกจาก","ความเจ็บปวด ความผิดหวัง การแยกจากกัน","เริ่มเยียวยาบาดแผล ให้อภัย ปล่อยความเจ็บปวด"],
+["Swords","ลม","4","Four of Swords","ดาบ 4","พักผ่อน ฟื้นฟู ทบทวน","การพักผ่อน การฟื้นฟู การคิดทบทวน","พักนานจนเฉื่อย หรือถึงเวลากลับมาลุยต่อ"],
+["Swords","ลม","5","Five of Swords","ดาบ 5","ขัดแย้ง พ่ายแพ้ ไม่ยุติธรรม","ความขัดแย้ง ความพ่ายแพ้ สถานการณ์ไม่ยุติธรรม","ยอมปล่อยความขัดแย้ง คืนดี หรือแค้นฝังใจ"],
+["Swords","ลม","6","Six of Swords","ดาบ 6","เดินทาง ฟื้นตัว หาทางออก","การเดินทาง การฟื้นตัว การหาทางออก","ติดอยู่ที่เดิม ย้ายแล้วปัญหาตามมา ลังเลจะไปต่อ"],
+["Swords","ลม","7","Seven of Swords","ดาบ 7","หลบเลี่ยง ความลับ เล่ห์กล","การหลบเลี่ยง ความลับ การใช้เล่ห์กล","ความลับถูกเปิดเผย สารภาพ เลิกหลอกตัวเอง"],
+["Swords","ลม","8","Eight of Swords","ดาบ 8","ถูกจำกัด กลัว ติดกับ","ความรู้สึกถูกจำกัด ความกลัว การติดอยู่ในสถานการณ์","เริ่มเห็นทางออก ปลดล็อกความกลัวที่สร้างเอง"],
+["Swords","ลม","9","Nine of Swords","ดาบ 9","วิตกกังวล ทุกข์ใจ","ความวิตกกังวล ความกลัว ความทุกข์ใจ","ความกังวลเริ่มคลาย กล้าขอความช่วยเหลือ"],
+["Swords","ลม","10","Ten of Swords","ดาบ 10","สิ้นสุด เจ็บปวดจากการสูญเสีย","การสิ้นสุด ความเจ็บปวดจากการสูญเสีย","จุดต่ำสุดผ่านไปแล้ว เริ่มฟื้นคืน แต่แผลยังไม่หายสนิท"],
+["Swords","ลม","Page","Page of Swords","อัศวินฝึกหัดดาบ","กระตือรือร้น สื่อสาร เฝ้าระวัง","ความกระตือรือร้น การสื่อสารชัดเจน การเฝ้าระวัง","พูดพล่อย ข่าวลือ สอดรู้สอดเห็น ขาดสมาธิ"],
+["Swords","ลม","Knight","Knight of Swords","อัศวินดาบ","มุ่งมั่น รวดเร็ว พลังสูง","ความมุ่งมั่น ความเร็ว พลังงานสูง","หุนหันพลันแล่น ก้าวร้าว พุ่งชนโดยไม่คิด"],
+["Swords","ลม","Queen","Queen of Swords","ราชินีดาบ","ปัญญา ยุติธรรม วิเคราะห์","ปัญญา ความยุติธรรม การวิเคราะห์","เย็นชา วิจารณ์รุนแรง ตัดสินคนเร็วเกินไป"],
+["Swords","ลม","King","King of Swords","ราชาดาบ","คิดชัดเจน ผู้นำมีปัญญา","ความคิดชัดเจน ผู้นำที่มีปัญญา การตัดสินใจเด็ดขาด","ใช้เหตุผลกดอารมณ์ เผด็จการทางความคิด ตัดสินไร้เมตตา"],
+["Wands","ไฟ","Ace","Ace of Wands","ไม้เท้า 1","เริ่มต้น บันดาลใจ สร้างสรรค์","การเริ่มต้นใหม่ แรงบันดาลใจ พลังสร้างสรรค์","ไฟดับ ไอเดียไม่ไปต่อ เริ่มแล้วไม่จบ"],
+["Wands","ไฟ","2","Two of Wands","ไม้เท้า 2","วางแผน กำหนดทิศทาง","การวางแผน การตัดสินใจ การกำหนดทิศทาง","กลัวความเสี่ยง วางแผนแล้วไม่ลงมือ ขาดวิสัยทัศน์"],
+["Wands","ไฟ","3","Three of Wands","ไม้เท้า 3","ขยายตัว รอผลลัพธ์","ความสำเร็จที่กำลังมาถึง การขยายตัว การรอคอยผลลัพธ์","แผนล่าช้า มองการณ์ไม่ไกล ขยายไม่สำเร็จ"],
+["Wands","ไฟ","4","Four of Wands","ไม้เท้า 4","ฉลอง มั่นคงร่วมกัน","ความสำเร็จ ความสุข ความมั่นคงร่วมกัน","บ้านหรือทีมไม่ลงรอย งานฉลองถูกเลื่อน ขาดความรู้สึกเป็นส่วนหนึ่ง"],
+["Wands","ไฟ","5","Five of Wands","ไม้เท้า 5","ขัดแย้ง แข่งขัน","ความขัดแย้ง การแข่งขัน การต่อสู้","เลี่ยงการปะทะ ความขัดแย้งคลี่คลาย หรือเก็บกดไว้ภายใน"],
+["Wands","ไฟ","6","Six of Wands","ไม้เท้า 6","ชัยชนะ ยอมรับ ยกย่อง","ความสำเร็จ การยอมรับ การได้รับยกย่อง","ไม่ได้รับการยอมรับ ผลงานถูกมองข้าม หยิ่งในชัยชนะ"],
+["Wands","ไฟ","7","Seven of Wands","ไม้เท้า 7","ปกป้องจุดยืน","การต่อสู้เพื่อปกป้องสิ่งที่ตนเชื่อ","ยอมแพ้ง่าย ถูกกดดันจนถอย ตั้งรับมากเกินไป"],
+["Wands","ไฟ","8","Eight of Wands","ไม้เท้า 8","รวดเร็ว ก้าวหน้า สื่อสาร","การเคลื่อนไหวเร็ว ความก้าวหน้า การสื่อสารชัดเจน","ล่าช้า สื่อสารผิดพลาด ข่าวสารสะดุด"],
+["Wands","ไฟ","9","Nine of Wands","ไม้เท้า 9","พากเพียร อดทน เตรียมพร้อม","ความพากเพียร ความอดทน การเตรียมพร้อม","หมดแรง ระแวงเกินไป ตั้งกำแพงกับทุกคน"],
+["Wands","ไฟ","10","Ten of Wands","ไม้เท้า 10","ภาระหนัก รับผิดชอบเกินตัว","ภาระหนัก ความรับผิดชอบที่มากเกินไป","เริ่มวางภาระลง กระจายงาน หรือแบกจนหมดสภาพ"],
+["Wands","ไฟ","Page","Page of Wands","อัศวินฝึกหัดไม้เท้า","ตื่นเต้น เริ่มต้น สร้างสรรค์","การเริ่มต้นใหม่ ความตื่นเต้น พลังสร้างสรรค์","ไร้ทิศทาง เบื่อง่าย ข่าวดีที่ล่าช้า"],
+["Wands","ไฟ","Knight","Knight of Wands","อัศวินไม้เท้า","พลังงาน ท้าทาย เคลื่อนไหว","พลังงาน การแสวงหาความท้าทาย การเคลื่อนไหว","หุนหัน เปลี่ยนใจง่าย เริ่มหลายอย่างไม่จบสักอย่าง"],
+["Wands","ไฟ","Queen","Queen of Wands","ราชินีไม้เท้า","มั่นใจ แข็งแกร่ง มีพลังใจ","ความมั่นใจ ความแข็งแกร่ง ผู้นำที่มีพลังใจ","ขาดความมั่นใจ หึงหวง ต้องการการยอมรับมากเกินไป"],
+["Wands","ไฟ","King","King of Wands","ราชาไม้เท้า","ผู้นำ วิสัยทัศน์ ตัดสินใจ","ความเป็นผู้นำ วิสัยทัศน์ พลังในการตัดสินใจ","เผด็จการ ใจร้อน สัญญาเกินตัว ขาดการรับฟัง"]
+];
+const GAP=[1,3,7,14,30];
+const $=s=>document.querySelector(s);
+let P=JSON.parse(localStorage.getItem('tarot78')||'{}');
+let idx=+(P._idx||0), Q=JSON.parse(localStorage.getItem('tarot78q')||'{"c":0,"t":0}');
+const save=()=>localStorage.setItem('tarot78',JSON.stringify(P));
 const today=()=>new Date().toISOString().slice(0,10);
-const addDays=d=>{const x=new Date();x.setDate(x.getDate()+d);return x.toISOString().slice(0,10)};
-const shuffle=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
-const $=id=>document.getElementById(id);
-save();
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)};
+function rec(i){return P[i]||(P[i]={score:0,round:0,first:'',next:'',note:''})}
+function status(i){const r=P[i];if(!r||!r.first)return[0,'ยังไม่เริ่ม'];if(r.score<=2)return[4,'ต้องรื้อใหม่'];if(r.round>=5&&r.score==5)return[3,'แม่นแล้ว'];if(r.round>=2)return[2,'ทบทวนอยู่'];return[1,'กำลังเรียน']}
 
-/* ============ 3. NAV ============ */
+// nav
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
- document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
- document.querySelectorAll('section').forEach(x=>x.classList.remove('active'));
- b.classList.add('active');$(b.dataset.t).classList.add('active');
- window.scrollTo(0,0);
- if(b.dataset.t==='report')renderReport();
- if(b.dataset.t==='home')renderHome();
- if(b.dataset.t==='srs')renderSrs();
- if(b.dataset.t==='spread')renderJournal();});
+  document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));$('#v-'+b.dataset.v).classList.add('on');
+  if(b.dataset.v=='prog')drawProg(); if(b.dataset.v=='review')drawDue(); if(b.dataset.v=='quiz'&&!$('#qtext').textContent)newQ();
+});
 
-/* ============ 4. LESSONS ============ */
-function renderLessons(){
- $('lessonList').innerHTML=LESSONS.map((l,i)=>`
- <div class="card-panel">
-  <h3>${l.t} ${S.lessons[i]?'<span class="pill">✓ ผ่านแล้ว</span>':''}</h3>
-  <ul>${l.b.map(x=>`<li>${x}</li>`).join('')}</ul>
-  <button class="btn ${S.lessons[i]?'ghost':''}" onclick="toggleLesson(${i})">${S.lessons[i]?'ยกเลิกเครื่องหมาย':'ทำเครื่องหมายว่าเรียนจบ'}</button>
- </div>`).join('');}
-window.toggleLesson=i=>{S.lessons[i]=S.lessons[i]?null:today();save();renderLessons();renderHome();};
+// jump list
+D.forEach((c,i)=>{const o=document.createElement('option');o.value=i;o.textContent=(i+1)+'. '+c[3]+' — '+c[4];$('#jump').appendChild(o)});
+$('#jump').onchange=e=>{idx=+e.target.value;render()};
+$('#rand').onclick=()=>{idx=Math.floor(Math.random()*78);render()};
+$('#prev').onclick=()=>{idx=(idx+77)%78;render()};
+$('#next').onclick=()=>{idx=(idx+1)%78;render()};
+$('#flip').onclick=()=>{const r=rec(idx);if(!r.first){r.first=today();r.next=addDays(r.first,GAP[0]);save()}$('#rev').classList.add('on');$('#flip').style.display='none';render(true)};
+$('#note').oninput=e=>{rec(idx).note=e.target.value;save()};
 
-/* ============ 5. CODEX ============ */
-let filter="all";
-function renderCodex(){
- const q=$('search').value.toLowerCase();
- const list=DECK.filter(c=>(filter==="all"||c.grp===filter)&&(c.name+c.th+c.up+c.rev).toLowerCase().includes(q));
- $('codexGrid').innerHTML=list.map(c=>{const st=S.cards[c.id];
-  return `<div class="tcard" onclick="openCard('${c.id}')">
-   <div class="nm">${c.name}</div><div class="th">${c.th}</div>
-   <span class="badge">${c.grp==='major'?'Major':SUITS[c.grp].el}</span>
-   ${st&&st.lvl>=3?'<span class="badge" style="background:#2e5f47">แม่นแล้ว</span>':''}</div>`}).join('')
-  ||'<p class="muted">ไม่พบไพ่ที่ค้นหา</p>';}
-window.openCard=id=>{
- const c=DECK.find(x=>x.id===id),st=S.cards[id];
- $('modalIn').innerHTML=`<h2>${c.name}</h2>
-  <p class="muted">${c.th} · ${c.grp==='major'?'Major Arcana '+c.num:SUITS[c.grp].th+' · '+c.el}</p>
-  <h3>ไพ่ตั้ง (Upright)</h3><p>${c.up}</p>
-  <h3>ไพ่กลับ (Reversed)</h3><p>${c.rev}</p>
-  <h3>สถานะการเรียนรู้</h3>
-  <p class="muted">ระดับความจำ ${(st&&st.lvl)||0}/5 · ถูก ${(st&&st.hit)||0} · ผิด ${(st&&st.miss)||0} · ทบทวนถัดไป ${(st&&st.due)||'ยังไม่กำหนด'}</p>
-  <button class="btn" onclick="markCard('${id}')">เพิ่มเข้าคิวทบทวน</button>
-  <button class="btn ghost" onclick="closeModal()">ปิด</button>`;
- $('modal').classList.add('on');};
-window.closeModal=()=>$('modal').classList.remove('on');
-window.markCard=id=>{S.cards[id]=S.cards[id]||{lvl:0,due:today(),hit:0,miss:0};S.cards[id].due=today();save();closeModal();renderCodex();renderSrs();};
-$('search').oninput=renderCodex;
-document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{filter=b.dataset.f;renderCodex();});
+function render(keep){
+  const c=D[idx],r=rec(idx),st=status(idx);
+  $('#c-no').textContent='ใบที่ '+(idx+1)+' / 78';
+  $('#c-suit').textContent=c[0]+' · '+c[2];
+  $('#c-el').textContent='ธาตุ '+c[1];
+  $('#c-stat').textContent=st[1];$('#c-stat').className='chip st s'+st[0];
+  $('#c-en').textContent=c[3];$('#c-th').textContent=c[4];
+  $('#c-kw').innerHTML=c[5].split(' ').map(k=>'<span>'+k+'</span>').join('');
+  $('#c-up').textContent=c[6];$('#c-rv').textContent=c[7];
+  $('#note').value=r.note||'';
+  $('#jump').value=idx;
+  $('#score').innerHTML=[1,2,3,4,5].map(n=>'<button data-n="'+n+'" class="'+(r.score==n?'on':'')+'">'+n+'</button>').join('');
+  $('#score').querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    const rr=rec(idx);rr.score=+b.dataset.n;
+    if(rr.round<5){rr.round++;rr.next=addDays(today(),GAP[Math.min(rr.round,4)])}
+    save();render(true);
+  });
+  if(!keep){$('#rev').classList.remove('on');$('#flip').style.display=r.first?'none':'inline-block';if(r.first)$('#rev').classList.add('on')}
+  P._idx=idx;save();bar();
+}
+function bar(){const d=D.filter((_,i)=>status(i)[0]==3).length,s=D.filter((_,i)=>P[i]&&P[i].first).length;
+  $('#pbar').style.width=(s/78*100)+'%';$('#ptxt').textContent='เรียนแล้ว '+s+' / 78 ใบ · แม่นแล้ว '+d+' ใบ'}
 
-/* ============ 6. QUIZ ============ */
-function buildQuiz(type){
- let pool=DECK,n=10,mode="up";
- if(type==="major")pool=DECK.filter(c=>c.grp==="major");
- if(type==="suit"){pool=DECK.filter(c=>c.grp!=="major");mode="el";}
- if(type==="rev")mode="rev";
- if(type==="final"){n=20;mode="mix";}
- return shuffle(pool).slice(0,n).map(c=>{
-  let m=mode==="mix"?shuffle(["up","rev","el"])[0]:mode;
-  if(m==="el"&&c.grp==="major")m="up";
-  if(m==="el"){const opts=shuffle(["ไฟ (Fire)","น้ำ (Water)","ลม (Air)","ดิน (Earth)"]);
-   return{q:`ไพ่ "${c.name}" สังกัดธาตุใด?`,opts,ans:opts.indexOf(c.el),cid:c.id,ex:`${c.name} อยู่ในชุด${SUITS[c.grp].th} → ${c.el}`};}
-  const key=m==="rev"?"rev":"up";
-  const wrong=shuffle(DECK.filter(x=>x.id!==c.id)).slice(0,3).map(x=>x[key]);
-  const opts=shuffle([c[key],...wrong]);
-  return{q:`ความหมาย${m==="rev"?"ไพ่กลับ":"ไพ่ตั้ง"}ของ "${c.name}" (${c.th}) คือข้อใด?`,opts,ans:opts.indexOf(c[key]),cid:c.id,ex:`เฉลย: ${c[key]}`};});}
-let Q=[],qi=0,score=0,qtype="";
-document.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{
- qtype=b.dataset.q;Q=buildQuiz(qtype);qi=0;score=0;
- $('quizMenu').style.display='none';$('quizBox').style.display='block';drawQ();});
-function drawQ(){
- if(qi>=Q.length)return endQuiz();
- const q=Q[qi];
- $('quizBox').innerHTML=`<div class="muted">ข้อ ${qi+1} / ${Q.length} · คะแนนสะสม ${score}</div>
-  <div class="bar"><i style="width:${qi/Q.length*100}%"></i></div><h3>${q.q}</h3>
-  ${q.opts.map((o,i)=>`<button class="opt" onclick="ansQ(${i})">${o}</button>`).join('')}`;}
-window.ansQ=i=>{
- const q=Q[qi],btns=document.querySelectorAll('#quizBox .opt');
- btns.forEach(b=>b.onclick=null);
- btns[q.ans].classList.add('correct');
- const ok=i===q.ans;if(!ok)btns[i].classList.add('wrong');if(ok)score++;
- const c=S.cards[q.cid]||{lvl:0,due:today(),hit:0,miss:0};
- if(ok){c.hit++;c.lvl=Math.min(5,c.lvl+1);}else{c.miss++;c.lvl=Math.max(0,c.lvl-1);}
- c.due=addDays([1,1,2,4,8,16][c.lvl]);S.cards[q.cid]=c;save();
- $('quizBox').insertAdjacentHTML('beforeend',
-  `<p class="muted" style="margin-top:10px">${ok?'✓ ถูกต้อง':'✗ ยังไม่ถูก'} — ${q.ex}</p>
-   <button class="btn" onclick="nextQ()">ข้อถัดไป →</button>`);};
-window.nextQ=()=>{qi++;drawQ();};
-function endQuiz(){
- const pct=Math.round(score/Q.length*100);
- S.quizzes.push({date:new Date().toLocaleString('th-TH'),type:qtype,score,total:Q.length,pct});save();
- $('quizBox').innerHTML=`<h3>สรุปผลการทดสอบ</h3>
-  <p>คะแนน <b>${score}/${Q.length}</b> (${pct}%)</p>
-  <div class="bar"><i style="width:${pct}%"></i></div>
-  <p class="muted">${pct>=80?'ระดับเชี่ยวชาญ — พร้อมเข้าสู่หน่วยถัดไป':pct>=60?'ระดับพอใช้ — ควรทบทวนไพ่ที่ตอบผิด':'ควรย้อนกลับไปทบทวนบทเรียนก่อนหน้า'}</p>
-  <button class="btn" onclick="resetQuiz()">กลับเมนูข้อสอบ</button>`;}
-window.resetQuiz=()=>{$('quizBox').style.display='none';$('quizMenu').style.display='block';renderHome();};
+function drawDue(){
+  const t=today(),due=D.map((c,i)=>i).filter(i=>P[i]&&P[i].first&&P[i].round<5&&P[i].next<=t);
+  $('#dueList').innerHTML=due.length?due.map(i=>'<div class="due"><div><b>'+D[i][3]+'</b><br><small>'+D[i][4]+' · รอบที่ '+(P[i].round+1)+' · ครบกำหนด '+P[i].next+'</small></div><button class="btn" onclick="go('+i+')">ทบทวนเลย</button></div>').join('')
+  :'<div class="box" style="margin-top:12px">ยังไม่มีไพ่ที่ถึงกำหนดทบทวนวันนี้ — ไปเรียนใบใหม่ต่อได้เลย</div>';
+}
+function go(i){idx=i;render();document.querySelector('nav button[data-v=learn]').click()}
 
-/* ============ 7. SRS ============ */
-function dueCards(){return DECK.filter(c=>S.cards[c.id]&&S.cards[c.id].due<=today());}
-function renderSrs(){$('dueCount').textContent=dueCards().length;}
-let srsQ=[],si=0;
-$('startSrs').onclick=()=>{srsQ=shuffle(dueCards());si=0;
- if(!srsQ.length){$('srsBox').innerHTML='<div class="card-panel muted">ยังไม่มีไพ่ถึงกำหนดทบทวน — เพิ่มไพ่จากคลังไพ่ หรือทำแบบทดสอบก่อน</div>';return;}
- drawSrs();};
-function drawSrs(){
- if(si>=srsQ.length){$('srsBox').innerHTML='<div class="card-panel">ทบทวนครบแล้ว ✓</div>';renderSrs();renderHome();return;}
- const c=srsQ[si];
- $('srsBox').innerHTML=`<div class="card-panel"><div class="muted">ใบที่ ${si+1}/${srsQ.length}</div>
-  <div class="flash" id="fl"><div class="big">${c.name}</div><div class="th muted">${c.th}</div>
-  <p class="muted" style="margin-top:14px">นึกความหมายในใจก่อน แล้วจึงพลิก</p></div>
-  <button class="btn" onclick="flip('${c.id}')">พลิกไพ่</button></div>`;}
-window.flip=id=>{const c=DECK.find(x=>x.id===id);
- $('fl').innerHTML=`<div class="big">${c.name}</div>
-  <p style="margin-top:10px"><b>ตั้ง:</b> ${c.up}</p><p><b>กลับ:</b> ${c.rev}</p>`;
- $('srsBox').insertAdjacentHTML('beforeend',
-  `<div class="card-panel"><p class="muted">ประเมินตนเอง</p>
-   <button class="btn" onclick="grade('${id}',1)">จำได้ดี</button>
-   <button class="btn alt" onclick="grade('${id}',0)">ยังไม่แม่น</button></div>`);};
-window.grade=(id,g)=>{const c=S.cards[id];
- if(g){c.lvl=Math.min(5,c.lvl+1);c.hit++;}else{c.lvl=Math.max(0,c.lvl-1);c.miss++;}
- c.due=addDays([1,1,2,4,8,16][c.lvl]);save();si++;drawSrs();};
+// quiz
+let QA=null;
+function newQ(){
+  const m=$('#qmode').value,a=Math.floor(Math.random()*78);
+  let pool=[a];while(pool.length<4){const r=Math.floor(Math.random()*78);if(!pool.includes(r))pool.push(r)}
+  pool.sort(()=>Math.random()-.5);
+  $('#qtext').textContent=m=='m2n'?'ความหมาย: '+D[a][6]:m=='k2n'?'คำสำคัญ: '+D[a][5]:'ไพ่ '+D[a][3]+' ('+D[a][4]+') มีความหมายว่าอะไร?';
+  $('#qopts').innerHTML=pool.map(i=>'<button class="qopt" data-i="'+i+'">'+(m=='n2m'?D[i][6]:D[i][3]+' — '+D[i][4])+'</button>').join('');
+  QA=a;
+  $('#qopts').querySelectorAll('.qopt').forEach(b=>b.onclick=()=>{
+    if(b.disabled)return;
+    $('#qopts').querySelectorAll('.qopt').forEach(x=>{x.disabled=true;if(+x.dataset.i===QA)x.classList.add('ok')});
+    if(+b.dataset.i!==QA)b.classList.add('no');else Q.c++;
+    Q.t++;localStorage.setItem('tarot78q',JSON.stringify(Q));qs();
+  });
+}
+function qs(){$('#qscore').textContent=Q.c+' / '+Q.t+(Q.t?' ('+Math.round(Q.c/Q.t*100)+'%)':'')}
+$('#qnext').onclick=newQ;$('#qmode').onchange=newQ;
+$('#qreset').onclick=()=>{Q={c:0,t:0};localStorage.setItem('tarot78q',JSON.stringify(Q));qs();newQ()};
 
-/* ============ 8. SPREAD & JOURNAL ============ */
-const SPREADS={
- three:{name:"Three-Card Spread",pos:["อดีต (Past)","ปัจจุบัน (Present)","อนาคต (Future)"],note:"สเปรดพื้นฐานสำหรับฝึกลำดับเวลาเชิงเส้น"},
- sao:{name:"Situation–Action–Outcome",pos:["สถานการณ์ปัจจุบัน","แนวปฏิบัติที่เสนอแนะ","ผลลัพธ์ที่น่าจะเป็น"],note:"เหมาะกับคำถามเชิงตัดสินใจ เน้น Empowerment"},
- celtic:{name:"Celtic Cross",pos:["1. แก่นของเรื่อง","2. อุปสรรค/แรงต้าน","3. รากฐาน–จิตใต้สำนึก","4. อดีตที่เพิ่งผ่าน","5. เป้าหมายที่ยึดถือ","6. อนาคตอันใกล้","7. ตัวผู้ถาม","8. สิ่งแวดล้อม/ผู้อื่น","9. ความหวังหรือความกลัว","10. ผลลัพธ์สุดท้าย"],note:"สเปรดเชิงลึก ควรสังเคราะห์ภาพรวมก่อนตีความรายใบ"}};
-let SP={key:null,cards:[]};
-window.startSpread=key=>{SP={key,cards:shuffle(DECK).slice(0,SPREADS[key].pos.length).map(c=>({c,rev:Math.random()<0.35,open:false}))};drawSpread();};
-function drawSpread(keepNote){
- const sp=SPREADS[SP.key];
- $('spreadBox').innerHTML=`<div class="card-panel"><h3>${sp.name}</h3><p class="muted">${sp.note}</p>
- <div class="spread-grid">${SP.cards.map((o,i)=>`
-  <div class="slot ${o.open?'open':''}" onclick="reveal(${i})"><div class="pos">${sp.pos[i]}</div>
-  ${o.open?`<div class="nm">${o.c.name}${o.rev?' ⟲':''}</div><div class="th">${o.c.th}${o.rev?' (กลับหัว)':''}</div><p>${o.rev?o.c.rev:o.c.up}</p>`:'<div class="back">✦</div>'}
-  </div>`).join('')}</div>
- <button class="btn ghost" onclick="revealAll()">เปิดไพ่ทั้งหมด</button>
- <button class="btn ghost" onclick="queueSpread()">ส่งไพ่ชุดนี้เข้าคิวทบทวน</button>
- <h3 style="margin-top:14px">บันทึกการตีความของคุณ</h3>
- <p class="muted">ฝึกเขียนคำตอบด้วยตนเองก่อนเปิดเฉลย — หลัก Retrieval Practice</p>
- <textarea class="ta" id="spNote" placeholder="คำถามตั้งต้น / การสังเคราะห์ภาพรวม / ข้อสรุป..."></textarea>
- <button class="btn" onclick="saveReading()">บันทึกลงสมุดบันทึก</button></div>`;
- if(keepNote!==undefined)$('spNote').value=keepNote;}
-window.reveal=i=>{if(SP.cards[i].open)return;const n=$('spNote').value;SP.cards[i].open=true;drawSpread(n);};
-window.revealAll=()=>{const n=$('spNote').value;SP.cards.forEach(o=>o.open=true);drawSpread(n);};
-window.queueSpread=()=>{SP.cards.forEach(o=>{S.cards[o.c.id]=S.cards[o.c.id]||{lvl:0,due:today(),hit:0,miss:0};S.cards[o.c.id].due=today();});save();renderSrs();alert('เพิ่มไพ่ '+SP.cards.length+' ใบเข้าคิวทบทวนแล้ว');};
-window.saveReading=()=>{
- const note=$('spNote').value.trim();
- if(!note){alert('กรุณาบันทึกการตีความก่อน');return;}
- S.readings.push({date:new Date().toLocaleString('th-TH'),spread:SPREADS[SP.key].name,
-  cards:SP.cards.map((o,i)=>({pos:SPREADS[SP.key].pos[i],name:o.c.name,th:o.c.th,rev:o.rev,mean:o.rev?o.c.rev:o.c.up})),note});
- save();renderJournal();alert('บันทึกเรียบร้อย — เปิดดูย้อนหลังได้ตลอด');};
-function renderJournal(){
- const b=$('journalBox');
- if(!S.readings.length){b.innerHTML='<div class="card-panel muted">ยังไม่มีบันทึกการอ่าน</div>';return;}
- b.innerHTML=S.readings.slice().reverse().map((r,i)=>`<div class="card-panel">
-  <h3>${r.spread}</h3><p class="muted">${r.date} · ${r.cards.length} ใบ</p>
-  <div>${r.cards.map(c=>`<span class="badge">${c.name}${c.rev?' ⟲':''}</span>`).join('')}</div>
-  <button class="btn ghost" onclick="openReading(${S.readings.length-1-i})">ทบทวนรายละเอียด</button></div>`).join('');}
-window.openReading=idx=>{const r=S.readings[idx];
- $('modalIn').innerHTML=`<h2>${r.spread}</h2><p class="muted">${r.date}</p>
- <table><tr><th>ตำแหน่ง</th><th>ไพ่</th><th>ความหมาย</th></tr>
- ${r.cards.map(c=>`<tr><td>${c.pos}</td><td>${c.name}${c.rev?' (กลับ)':''}<br><span class="muted">${c.th}</span></td><td>${c.mean}</td></tr>`).join('')}</table>
- <h3>บันทึกการตีความ</h3><p>${r.note.replace(/</g,'&lt;').replace(/\n/g,'<br>')}</p>
- <button class="btn ghost" onclick="closeModal()">ปิด</button>`;
- $('modal').classList.add('on');};
-
-/* ============ 9. REPORT ============ */
-function renderHome(){
- const ls=Object.values(S.lessons).filter(Boolean).length;
- const mastered=Object.values(S.cards).filter(c=>c.lvl>=3).length;
- const acc=S.quizzes.length?Math.round(S.quizzes.reduce((a,b)=>a+b.pct,0)/S.quizzes.length):null;
- const pct=Math.round((ls/8*50)+(mastered/78*50));
- $('sLesson').textContent=ls+"/8";$('sCard').textContent=mastered+"/78";
- $('sQuiz').textContent=S.quizzes.length;$('sAcc').textContent=acc!==null?acc+"%":"—";
- $('pctBar').style.width=pct+"%";$('pctTxt').textContent=pct+"%";}
-function renderReport(){
- const weak=DECK.filter(c=>S.cards[c.id]&&S.cards[c.id].miss>S.cards[c.id].hit);
- $('reportBox').innerHTML=`<h3>ประวัติการทดสอบ</h3>
- ${S.quizzes.length?`<table><tr><th>วันที่</th><th>ชุด</th><th>คะแนน</th><th>%</th></tr>
- ${S.quizzes.slice().reverse().map(q=>`<tr><td>${q.date}</td><td>${q.type}</td><td>${q.score}/${q.total}</td><td>${q.pct}%</td></tr>`).join('')}</table>`:'<p class="muted">ยังไม่มีข้อมูล</p>'}
- <h3 style="margin-top:16px">ไพ่ที่ควรทบทวนเร่งด่วน</h3>
- ${weak.length?weak.map(c=>`<span class="badge">${c.name}</span>`).join(''):'<p class="muted">ไม่พบจุดอ่อน</p>'}
- <h3 style="margin-top:16px">จำนวนบันทึกการอ่าน</h3><p class="muted">${S.readings.length} ครั้ง</p>
- <h3 style="margin-top:16px">ความคืบหน้ารายหน่วย</h3>
- <table><tr><th>หน่วย</th><th>สถานะ</th></tr>
- ${LESSONS.map((l,i)=>`<tr><td>${l.t}</td><td>${S.lessons[i]?'ผ่าน ('+S.lessons[i]+')':'ยังไม่เรียน'}</td></tr>`).join('')}</table>`;}
-
-/* ============ 10. EXPORT / IMPORT ============ */
-$('expBtn').onclick=()=>{
- try{const blob=new Blob([JSON.stringify(S,null,1)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download='tarot-progress-'+today()+'.json';a.click();}catch(e){}
- const t=$('expArea');t.style.display='block';t.value=JSON.stringify(S);t.select();
- alert('ดาวน์โหลดไฟล์แล้ว — หรือคัดลอกข้อความในกล่องไปวางในเครื่องอื่น');};
-$('impBtn').onclick=()=>{
- try{const d=JSON.parse($('impArea').value);
-  S.lessons=Object.assign({},S.lessons,d.lessons||{});
-  Object.entries(d.cards||{}).forEach(([k,v])=>{const cur=S.cards[k];S.cards[k]=(!cur||v.lvl>cur.lvl)?v:cur;});
-  S.quizzes=[...S.quizzes,...(d.quizzes||[])];
-  S.readings=[...S.readings,...(d.readings||[])];
-  save();alert('นำเข้าสำเร็จ');location.reload();
- }catch(e){alert('รูปแบบข้อมูลไม่ถูกต้อง');}};
-$('resetBtn').onclick=()=>{if(confirm('ยืนยันล้างข้อมูลทั้งหมด?')){localStorage.removeItem(KEY);location.reload();}};
-$('modal').onclick=e=>{if(e.target.id==='modal')closeModal();};
-
-/* ============ 11. PWA MANIFEST ============ */
-(function(){
- const icon="data:image/svg+xml;base64,"+btoa('<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512"><rect width="512" height="512" fill="#12101c"/><text x="50%" y="64%" font-size="300" text-anchor="middle" fill="#c9a227">*</text></svg>');
- const manifest={name:"Tarot Academy",short_name:"Tarot",start_url:".",display:"standalone",
-  background_color:"#12101c",theme_color:"#c9a227",
-  icons:[{src:icon,sizes:"512x512",type:"image/svg+xml",purpose:"any"}]};
- const l=document.createElement('link');l.rel='manifest';
- l.href=URL.createObjectURL(new Blob([JSON.stringify(manifest)],{type:'application/json'}));
- document.head.appendChild(l);
- if('serviceWorker' in navigator && location.protocol==='https:')
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
-})();
-
-renderLessons();renderCodex();renderHome();renderSrs();renderJournal();
+function drawProg(){
+  let n=[0,0,0,0,0];
+  $('#ptbody').innerHTML=D.map((c,i)=>{const st=status(i),r=P[i]||{};n[st[0]]++;
+    return '<tr><td>'+(i+1)+'</td><td><b>'+c[3]+'</b><br><small>'+c[4]+'</small></td><td>'+c[0]+'</td><td>'+(r.score||'-')+'</td><td>'+(r.round||0)+'/5</td><td><span class="st s'+st[0]+'">'+st[1]+'</span></td></tr>'}).join('');
+  $('#s-done').textContent=n[3];$('#s-learn').textContent=n[1]+n[2];$('#s-fix').textContent=n[4];$('#s-none').textContent=n[0];
+}
+$('#reset').onclick=()=>{if(confirm('ล้างข้อมูลการเรียนทั้งหมดหรือไม่?')){P={};idx=0;save();render();drawProg()}};
+render();qs();
 </script>
 </body>
 </html>
